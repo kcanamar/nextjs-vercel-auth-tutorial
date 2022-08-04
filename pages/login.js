@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { Magic } from "magic-sdk";
 
 export default function Login() {
     const router = useRouter()
@@ -8,6 +9,9 @@ export default function Login() {
         const { elements } = event.target
 
         // Add Magic code here
+        const did = await new Magic(
+            process.env.NEXT_PUBLIC_MAGIC_PUB_KEY,
+        ).auth.loginWithMagicLink({ email: elements.email.value })
 
         // Once we have the token from magic update our own database
 
