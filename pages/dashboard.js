@@ -1,3 +1,12 @@
+import useAuth from "../hooks/useAuth";
+
 export default function DashBoard() {
-    return <h1>DashBoard</h1>;
+    const { user, loading } = useAuth()
+
+    return (
+        <>
+            <h1>DashBoard</h1>
+            {loading ? 'Loading...' : user.email}
+        </>
+    )
 };
