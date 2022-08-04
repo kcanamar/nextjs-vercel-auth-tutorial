@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hapi/iron": "^7.0.0",
     "@magic-sdk/admin": "^1.4.1",
     "magic-sdk": "^8.1.1",
     "next": "12.2.4",
