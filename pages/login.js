@@ -14,13 +14,17 @@ export default function Login() {
         ).auth.loginWithMagicLink({ email: elements.email.value })
 
         // Once we have the token from magic update our own database
+        const authRequest = await fetch('/api/login', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${did}`},
+        });
 
-        // const AuthRequest = await fetch()
-
-        // if (authRequest.ok) {
+        if (authRequest.ok) {
             // Successfully logged in, our API set authorization cookies and now we can redirect to the dashboard
-            // router.push('/dashboard')
-        // } else {/* handle errors */}
+            router.push('/dashboard')
+        } else {
+            /* handle errors */
+        }
     }
 
     return (
