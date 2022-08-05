@@ -1,11 +1,12 @@
 import Link from "next/link";
 import Head from "next/head";
+import Script from "next/script";
 
 export default function Home() {
   return (
     <>
       <Head>
-        <script
+        <Script
           dangerouslySetInnerHTML={{
             __html: `
               if (document.cookie && document.cookie.includes('authed)) {
