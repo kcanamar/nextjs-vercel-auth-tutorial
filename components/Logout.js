@@ -16,16 +16,15 @@ export default function Logout() {
         } catch (error) {
             return console.log(`error >>> `, error);
         };
-
-        return (
-            <div className="">
-                <button 
-                    className=""
-                    onClick={logoutUser}
-                > 
-                    Logout
-                </button>
-            </div>
-        )
     };
+    return (
+        <div className="">
+            <button 
+                className=""
+                onClick={logoutUser}
+            > 
+                Logout
+            </button>
+        </div>
+    )
 }
