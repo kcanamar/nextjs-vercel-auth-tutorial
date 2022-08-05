@@ -13,6 +13,7 @@ export default async function handler(req, res) {
                     text: newTodo.text,
                     isCompleted: false,
                     createdAt: new Date().toISOString(),
+                    dueDate: new Date().toISOString(),
                     userEmail: newTodo.user,
                 })
                 .then((res) => {

@@ -1,6 +1,9 @@
 import useAuth from "../hooks/useAuth";
 import Logout from "../components/Logout"
-import { useState } from "react";
+import { useState, useEffect, createContext } from "react";
+import client from "../lib/sanity/client";
+
+export const TodoContext = createContext()
 
 export default function DashBoard() {
     const { user, loading } = useAuth()
@@ -10,6 +13,32 @@ export default function DashBoard() {
     const [userInput, setUserInput] = useState("")
     // set an error message if input is missing
     const [errMessage, setErrMessage] = useState("")
+
+    // fetch the todos for the logged in user
+    const fetchTodos = async () => {
+        let fetchedTodos;
+        // check if the user is loaded
+        if (!loading) {
+            // pass userEmail as a query parameter
+            fetchedTodos = await client.fetch(`*[_type=="todo"] | order(dueDate asc) 
+                {_id, text, createdAt, dueDate, isCompleted, completedAt, userEmail}`,
+                {
+                    userEmail: user.email,
+                });
+                // insert our response in the todoList state
+                setTodoList(fetchedTodos)
+        }
+    }
+
+    useEffect(
+        () => {
+            // fetch todos on page load...
+            fetchTodos()
+        },
+        // dependency array defines when React to re-run this hook
+        // when an element in the array changes
+        [loading, user]
+    );
 
     // for input form
     const handleChange = async (event) => {
@@ -32,14 +61,27 @@ export default function DashBoard() {
                     user: user.email,
                 }),
             });
-            // await fetchTodos()
+            // after submission of new Todo, TodoList will refresh
+            await fetchTodos()
             setUserInput("")
             setErrMessage("")
         }
     }
 
+    // handleDelete function
+    const handleDelete = async (selectedTodo) => {
+        await fetch("/api/todo", {
+            method: "DELETE",
+            body: selectedTodo._id,
+        })
+        // refresh todos after deletion
+        await fetchTodos()
+    }
+
+    console.log(todoList, "<< current list")
+
     return (
-        <div>
+        <TodoContext.Provider value={{handleDelete, fetchTodos}}>
             <Logout />
             <h1>DashBoard</h1>
             {loading ? 'Loading...' : user.email}
@@ -63,6 +105,6 @@ export default function DashBoard() {
                 </button>
                 <p>{errMessage}</p>
             </form>
-        </div>
+        </TodoContext.Provider>
     )
 };
