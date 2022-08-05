@@ -21,6 +21,9 @@ a {
   }
   body {
     color: white;
-    background: black;
+    background: rgba(62, 62, 184, 0.515);
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
   }
 }

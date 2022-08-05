@@ -2,6 +2,7 @@ import useAuth from "../hooks/useAuth";
 import Logout from "../components/Logout"
 import { useState, useEffect, createContext } from "react";
 import client from "../lib/sanity/client";
+import TodoList from "../components/TodoList";
 
 export const TodoContext = createContext()
 
@@ -20,7 +21,7 @@ export default function DashBoard() {
         // check if the user is loaded
         if (!loading) {
             // pass userEmail as a query parameter
-            fetchedTodos = await client.fetch(`*[_type=="todo"] | order(dueDate asc) 
+            fetchedTodos = await client.fetch(`*[_type=="todo"] | order(createdAt desc) 
                 {_id, text, createdAt, dueDate, isCompleted, completedAt, userEmail}`,
                 {
                     userEmail: user.email,
@@ -105,6 +106,10 @@ export default function DashBoard() {
                 </button>
                 <p>{errMessage}</p>
             </form>
+            <div>
+                <h1>Your Todos</h1>
+                {loading ? ("Loading...") : (<TodoList user={user} todoList={todoList}/>)}
+            </div>
         </TodoContext.Provider>
     )
 };

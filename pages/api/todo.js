@@ -26,5 +26,34 @@ export default async function handler(req, res) {
             }
 
             break;
+        
+        case "PUT":
+            const result = await client
+                .patch(req.body.id._id)
+                .set({
+                    isCompleted: !req.body.isCompleted,
+                    // create new complete data if todo is marked done
+                    completedAt: !!req.body.isCompleted ? "" : new Date().toISOString(),
+                })
+                .commit();
+
+            res.status(200).json({
+                status: result.isCompleted,
+                completedAt: result.completedAt,
+            });
+
+            break;
+
+        case "DELETE":
+            await client
+                .delete(req.body)
+                .then((res) => {
+                    res.body
+                })
+                .then((res) => console.log(`Todo was deleted`))
+
+            res.status(200).json({ message: "Success"})
+
+            break;
     }
 }
