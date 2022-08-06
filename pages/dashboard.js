@@ -35,11 +35,9 @@ export default function DashBoard() {
         () => {
             // fetch todos on page load...
             fetchTodos()
-        },
+        },[loading, user]);
         // dependency array defines when React to re-run this hook
         // when an element in the array changes
-        [loading, user]
-    );
 
     // for input form
     const handleChange = async (event) => {
@@ -79,7 +77,7 @@ export default function DashBoard() {
         await fetchTodos()
     }
 
-    console.log(todoList, "<< current list")
+    // console.log(todoList, "<< current list")
 
     return (
         <TodoContext.Provider value={{handleDelete, fetchTodos}}>

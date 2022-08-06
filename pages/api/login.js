@@ -2,7 +2,7 @@ import { Magic } from "@magic-sdk/admin";
 import Iron from '@hapi/iron'
 import CookieService from "../../lib/cookie"
 
-export default async (req, res) => {
+export default async function Login(req, res) {
     if (req.method !== 'POST') return res.status(405).end();
 
     // exchange the DID from magic for some user data

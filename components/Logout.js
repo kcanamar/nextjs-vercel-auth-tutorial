@@ -1,6 +1,6 @@
 import { Magic } from "magic-sdk";
 import { useRouter } from "next/router";
-import { removeCookie } from "../lib/cookie";
+import removeCookie from "../lib/cookie";
 
 export default function Logout() {
     const router = useRouter();
